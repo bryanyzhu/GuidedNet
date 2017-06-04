@@ -1,37 +1,79 @@
-# Caffe
+Caffe with GuidedNet
+============================
 
-[![Build Status](https://travis-ci.org/BVLC/caffe.svg?branch=master)](https://travis-ci.org/BVLC/caffe)
-[![License](https://img.shields.io/badge/license-BSD-blue.svg)](LICENSE)
+This the relase of the CVPR 2017 BNMW workshop version of GuidedNet, "Guided Optical Flow Learning". You can refer to paper for more details at [Openreview](https://openreview.net/forum?id=S1kggAGgb&noteId=S1kggAGgb) or [Arxiv](https://arxiv.org/abs/1702.02295).
 
-Caffe is a deep learning framework made with expression, speed, and modularity in mind.
-It is developed by the Berkeley Vision and Learning Center ([BVLC](http://bvlc.eecs.berkeley.edu)) and community contributors.
+The code base is heavily borrowed from [DispNet](https://lmb.informatik.uni-freiburg.de/resources/software.php) and [UnsupFlownet](http://scs.ryerson.ca/~jjyu/). Thanks for opensourcing the code.
 
-Check out the [project site](http://caffe.berkeleyvision.org) for all the details like
+Dependencies
+=========
 
-- [DIY Deep Learning for Vision with Caffe](https://docs.google.com/presentation/d/1UeKXVgRvvxg9OUdh_UiC5G71UMscNPlvArsWER41PsU/edit#slide=id.p)
-- [Tutorial Documentation](http://caffe.berkeleyvision.org/tutorial/)
-- [BVLC reference models](http://caffe.berkeleyvision.org/model_zoo.html) and the [community model zoo](https://github.com/BVLC/caffe/wiki/Model-Zoo)
-- [Installation instructions](http://caffe.berkeleyvision.org/installation.html)
+OpenCV 3 (Installation can be refered [here](https://github.com/BVLC/caffe/wiki/OpenCV-3.2-Installation-Guide-on-Ubuntu-16.04))
+Tested on Ubuntu 16.04 with Titan X GPU, CUDNN 5.1
 
-and step-by-step examples.
+Compiling
+=========
 
-[![Join the chat at https://gitter.im/BVLC/caffe](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BVLC/caffe?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+To get started with GuidedNet, first compile caffe, by configuring a
 
-Please join the [caffe-users group](https://groups.google.com/forum/#!forum/caffe-users) or [gitter chat](https://gitter.im/BVLC/caffe) to ask questions and talk about methods and models.
-Framework development discussions and thorough bug reports are collected on [Issues](https://github.com/BVLC/caffe/issues).
+    "Makefile.config" 
 
-Happy brewing!
+then make with 
 
-## License and Citation
+    $ make -j 6 all
 
-Caffe is released under the [BSD 2-Clause license](https://github.com/BVLC/caffe/blob/master/LICENSE).
-The BVLC reference models are released for unrestricted use.
+Training
+========
 
-Please cite Caffe in your publications if it helps your research:
+(this assumes you compiled the code sucessfully) 
 
-    @article{jia2014caffe,
-      Author = {Jia, Yangqing and Shelhamer, Evan and Donahue, Jeff and Karayev, Sergey and Long, Jonathan and Girshick, Ross and Guadarrama, Sergio and Darrell, Trevor},
-      Journal = {arXiv preprint arXiv:1408.5093},
-      Title = {Caffe: Convolutional Architecture for Fast Feature Embedding},
-      Year = {2014}
+First you need to download and prepare the training data. For that go to the data folder: 
+
+    cd data 
+
+Then run: 
+    ./download.sh 
+
+Then prepare FlyingChairs_release.list file, change the directory accordingly. For example, if you want to train with FlowFields proxy ground truth, you need to first generate FlowFields flow estimation by yourself and change:
+
+    FlyingChairs_release/data/00001_img1.ppm  FlyingChairs_release/data/00001_img2.ppm  FlyingChairs_release/data/00001_flow.flo 
+to:
+    FlyingChairs_release/data/00001_img1.ppm  FlyingChairs_release/data/00001_img2.ppm  FlyingChairs_release/FlowFields/00001_flow.flo 
+
+Then run:
+    ./make-lmdbs.sh 
+
+(this will take some time and disk space) 
+
+To train a GuidedNet network, go to this folder:
+ 
+    cd ./GuidedNet/models/FlowNetS_FlowFields/
+
+Then just run: 
+    ./train.py 
+
+To train GuidedNet network with unsuervised fine-tuning, go to this folder:
+    
+    cd ./GuidedNet/models/Unsup_FineTune/
+
+Then just run: 
+    ./train.py 
+
+NOTE: You may get better performance if you carefully tune the hyper-params for different datasets, such as loss weights, learning rate etc. 
+
+Testing
+========
+You can refer to [DispNet](https://lmb.informatik.uni-freiburg.de/resources/software.php) for now. We will add testing script and trained models later.
+
+
+License and Citation
+====================
+
+Please cite this paper in your publications if you use GuidedNet for your research:
+
+    @article{guided_flow_17,
+      title={{Guided Optical Flow Learning}},
+      author={Yi Zhu and Zhenzhong Lan and Shawn Newsam and Alexander G. Hauptmann},
+      journal={arXiv preprint arXiv:1702.022952},
+      year={2017}
     }
