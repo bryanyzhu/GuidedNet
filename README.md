@@ -76,13 +76,17 @@ E.g. go to this folder:
 
     cd ./GuidedNet/models/FlowNetS_FlowFields/
 
-First, download pre-trained models from [FlowNetS trained with FlowFields proxy ground truth for Flying Chairs dataset](https://drive.google.com/open?id=0B-bJpXHBmFWDc1JzQVBfbDdBM2c) [FlowNetS trained with FlowFields and unsupervised fine-tuning for Flying Chairs dataset](https://drive.google.com/open?id=0B-bJpXHBmFWDbG5ab2ZvbHhVekk) [FlowNetS trained with FlowFields and unsupervised fine-tuning for MPI-Sintel dataset](https://drive.google.com/open?id=0B-bJpXHBmFWDQk50OElxZzJLb1k). 
+First, download pre-trained models:
 
-Then prepare image pairs list, as in the example of 
+[FlowNetS trained with FlowFields proxy ground truth for Flying Chairs dataset](https://drive.google.com/open?id=0B-bJpXHBmFWDc1JzQVBfbDdBM2c) 
 
-     fc_val_im0.txt and fc_val_im1.txt
+[FlowNetS trained with FlowFields and unsupervised fine-tuning for Flying Chairs dataset](https://drive.google.com/open?id=0B-bJpXHBmFWDbG5ab2ZvbHhVekk) 
 
-Then change line 157 in run.py to use the correct model. To try out GuidedNet on sample image pairs, run
+[FlowNetS trained with FlowFields and unsupervised fine-tuning for MPI-Sintel dataset](https://drive.google.com/open?id=0B-bJpXHBmFWDQk50OElxZzJLb1k)
+
+Then prepare image pairs list, as in the example of ``fc_val_im0.txt`` and ``fc_val_im1.txt``.
+
+Change line 157 in run.py to use the correct model. To try out GuidedNet on sample image pairs, run
 
     ./run.py fc_val_im0.txt fc_val_im1.txt 
 
