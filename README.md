@@ -90,6 +90,8 @@ Change line 157 in run.py to use the correct model. To try out GuidedNet on samp
 
     ./run.py fc_val_im0.txt fc_val_im1.txt 
 
+This is just an example of testing on Flying Chairs dataset. You can generate your own image pairs list for any dataset.
+
 
 License and Citation
 ====================
